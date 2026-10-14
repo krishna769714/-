@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>एडमिन पैनल - अनन्या कृषि सेवा</title>
+    
+    <!-- 🔒 सुरक्षा गार्ड (Direct URL Access Blocker) -->
+    <script>
+        (function protectAdmin() {
+            const isAuth = sessionStorage.getItem('adminAuth');
+            if (isAuth !== 'true') {
+                const pass = prompt("🔒 सुरक्षा जाँच: एडमिन पैनल खोलने के लिए पासवर्ड दर्ज करें:");
+                if (pass === "Sandeep@123") {
+                    sessionStorage.setItem('adminAuth', 'true');
+                    alert("✅ पासवर्ड सही है! स्वागत है एडमिन।");
+                } else {
+                    alert("❌ गलत पासवर्ड! केवल दुकान मालिक ही यह पेज खोल सकते हैं।");
+                    window.location.href = "/"; // होमपेज पर रीडायरेक्ट करें
+                }
+            }
+        })();
+    </script>
+
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #eef2f5; padding: 20px; margin: 0; }
+        .header { background: #1b5e20; color: white; padding: 15px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .header h2 { margin: 0; }
+        .box { background: white; padding: 20px; border-radius: 8px; margin-top: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        table, th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background: #f2f2f2; }
+        .form-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+        .form-row input, .form-row select { padding: 8px; flex: 1; min-width: 120px; }
+        .btn { background: #2e7d32; color: white; border: none; padding: 8px 15px; cursor: pointer; border-radius: 4px; font-weight: bold; }
+        .btn-delete { background: #d32f2f; color: white; border: none; padding: 6px 12px; cursor: pointer; border-radius: 4px; font-weight: bold; font-size: 13px; }
+        .btn-delete:hover { background: #b71c1c; }
+        .btn-logout { background: #ff9800; color: white; border: none; padding: 8px 15px; cursor: pointer; border-radius: 4px; font-weight: bold; }
+        .status-select { padding: 6px; font-weight: bold; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h2>🏪 अनन्या कृषि सेवा - एडमिन पैनल</h2>
+    <div>
+        <a href="/" style="color: white; font-weight: bold; text-decoration: none; margin-right: 15px;" target="_blank">🛒 स्टोर खोलें ➔</a>
+        <button type="button" class="btn-logout" onclick="logoutAdmin()">🔒 एडमिन लॉगआउट</button>
+    </div>
+</div>
+
+<!-- 1. नया उत्पाद जोड़ें -->
+<div class="box">
+    <h3>➕ उत्पाद जोड़ें / रेट व स्टॉक बदलें</h3>
+    <form id="prodForm">
+        <input type="hidden" id="pId">
+        <div class="form-row">
+            <input type="text" id="pName" placeholder="सामान का नाम" required>
+            <input type="number" id="pPrice" placeholder="कीमत (₹)" required>
+            <input type="number" id="pStock" placeholder="स्टॉक (बोरियां)" required>
+            <select id="pCategory">
+                <option value="beej">🌱 बीज (Seed)</option>
+                <option value="khaad">🧪 खाद (Fertilizer)</option>
+                <option value="dawai">💊 दवाइयां (Pesticides)</option>
+            </select>
+            <button type="submit" class="btn">सुरक्षित करें</button>
+        </div>
+    </form>
+</div>
+
+<!-- 2. ऑर्डर्स, स्टेटस बदलना व डिलीट करना -->
+<div class="box">
+    <h3>📦 किसानों के आर्डर्स (Manage Orders)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>किसान</th>
+                <th>मोबाइल व पता</th>
+                <th>सामान व मात्रा</th>
+                <th>कुल बिल</th>
+                <th>स्थिति (Status)</th>
+                <th>कार्रवाई (Action)</th>
+            </tr>
+        </thead>
+        <tbody id="adminOrdersBody">
+            <tr><td colspan="7" style="text-align:center;">लोड हो रहा है...</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // 1. एडमिन लॉगआउट
+    function logoutAdmin() {
+        sessionStorage.removeItem('adminAuth');
+        alert("🔒 आप एडमिन पैनल से लॉगआउट हो गए हैं!");
+        window.location.href = "/";
+    }
+
+    // 2. सभी आर्डर्स लोड करना
+    async function loadAdminOrders() {
+        try {
+            const res = await fetch('/api/admin/orders');
+            const orders = await res.json();
+            const tbody = document.getElementById('adminOrdersBody');
+            
+            if(orders.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:gray;">अभी कोई आर्डर उपलब्ध नहीं है।</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = '';
+            orders.forEach(o => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td><b>${o.orderId}</b><br><small style="color:gray;">${o.date}</small></td>
+                        <td><b>${o.userName}</b></td>
+                        <td>📞 ${o.userPhone}<br><small>${o.address} (${o.pincode || ''})</small></td>
+                        <td>${o.items.map(i => `• ${i.name} (x${i.quantity})`).join('<br>')}</td>
+                        <td><b>₹${o.totalAmount}</b><br><small style="color:#d32f2f;">${o.paymentMethod}</small></td>
+                        <td>
+                            <select class="status-select" onchange="updateStatus('${o.orderId}', this.value)">
+                                <option value="Pending" ${o.status==='Pending'?'selected':''}>🟠 Pending</option>
+                                <option value="Confirmed" ${o.status==='Confirmed'?'selected':''}>🔵 Confirmed</option>
+                                <option value="Shipped" ${o.status==='Shipped'?'selected':''}>🟣 Shipped</option>
+                                <option value="Delivered" ${o.status==='Delivered'?'selected':''}>🟢 Delivered</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button type="button" class="btn-delete" onclick="deleteOrder('${o.orderId}')">🗑️ डिलीट करें</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        } catch (error) {
+            console.error("Orders Load Error:", error);
+        }
+    }
+
+    // 3. आर्डर स्थिति अपडेट करना
+    async function updateStatus(orderId, status) {
+        try {
+            const res = await fetch(`/api/admin/orders/${orderId}/status`, {
+                method: 'PUT',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({ status })
+            });
+            const data = await res.json();
+            if(data.success) {
+                alert(`✅ आर्डर ${orderId} का स्टेटस '${status}' हो गया है!`);
+            }
+        } catch (e) {
+            alert("❌ स्टेटस अपडेट में त्रुटि!");
+        }
+    }
+
+    // 4. आर्डर डिलीट करना (POST Method Safe Delete)
+    async function deleteOrder(orderId) {
+        const confirmDelete = confirm(`क्या आप सच में आर्डर ID: ${orderId} को हमेशा के लिए डिलीट करना चाहते हैं?`);
+        
+        if (confirmDelete) {
+            try {
+                const res = await fetch('/api/admin/delete-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ orderId: orderId })
+                });
+                
+                const data = await res.json();
+                
+                if (data.success) {
+                    alert("🗑️ " + data.message);
+                    loadAdminOrders();
+                } else {
+                    alert("❌ " + data.message);
+                }
+            } catch (error) {
+                alert("❌ डिलीट करने में समस्या आई!");
+            }
+        }
+    }
+
+    // 5. नया प्रोडक्ट जोड़ना
+    document.getElementById('prodForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        try {
+            const res = await fetch('/api/admin/products', {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({
+                    id: document.getElementById('pId').value,
+                    name: document.getElementById('pName').value,
+                    price: document.getElementById('pPrice').value,
+                    stock: document.getElementById('pStock').value,
+                    category: document.getElementById('pCategory').value
+                })
+            });
+            const data = await res.json();
+            if(data.success) {
+                alert("✅ उत्पाद सुरक्षित हो गया!");
+                document.getElementById('prodForm').reset();
+            }
+        } catch (e) {
+            alert("❌ सेव करने में त्रुटि!");
+        }
+    });
+
+    // ऑटो लोड
+    loadAdminOrders();
+    setInterval(loadAdminOrders, 10000);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>अनन्या कृषि सेवा - किसान की जरूरत</title>
+    <style>
+        :root { 
+            --green: #1b5e20; 
+            --light-green: #e8f5e9; 
+            --orange: #ff9800; 
+        }
+        
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: #f4f8f3; 
+            margin: 0; 
+            padding-bottom: 80px; 
+        }
+        
+        /* Header & Navigation Styling */
+        .header { 
+            background: var(--green); 
+            color: white; 
+            padding: 20px; 
+            text-align: center; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
+            position: relative; 
+        }
+        
+        .header h1 { 
+            margin: 0; 
+            font-size: 24px; 
+        }
+        
+        .header p { 
+            margin: 5px 0 0; 
+            font-size: 14px; 
+            color: #a5d6a7; 
+        }
+
+        .top-bar-controls { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-top: 15px; 
+            flex-wrap: wrap; 
+            gap: 10px; 
+        }
+        
+        .share-bar { 
+            display: flex; 
+            justify-content: center; 
+            gap: 8px; 
+        }
+        
+        .btn-share { 
+            border: none; 
+            padding: 8px 14px; 
+            border-radius: 20px; 
+            font-weight: bold; 
+            color: white; 
+            cursor: pointer; 
+            font-size: 13px; 
+            display: flex; 
+            align-items: center; 
+            gap: 5px; 
+        }
+        
+        .btn-wa { background: #25D366; }
+        .btn-fb { background: #1877F2; }
+        .btn-insta { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+        .btn-admin { background: #ff9800; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px; }
+
+        .nav-bar { 
+            display: flex; 
+            background: #2e7d32; 
+            overflow-x: auto; 
+            white-space: nowrap; 
+        }
+        
+        .nav-bar button { 
+            flex: 1; 
+            padding: 15px; 
+            border: none; 
+            background: none; 
+            color: white; 
+            font-weight: bold; 
+            cursor: pointer; 
+            font-size: 15px; 
+            border-bottom: 3px solid transparent; 
+        }
+        
+        .nav-bar button.active { 
+            border-bottom: 3px solid var(--orange); 
+            background: rgba(255,255,255,0.1); 
+        }
+
+        .container { 
+            max-width: 800px; 
+            margin: 20px auto; 
+            padding: 0 15px; 
+        }
+        
+        .view { display: none; }
+        .view.active { display: block; }
+
+        /* Products Grid Layout */
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); 
+            gap: 15px; 
+        }
+        
+        .card { 
+            background: white; 
+            border-radius: 10px; 
+            padding: 15px; 
+            text-align: center; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08); 
+            border: 1px solid #e0e0e0; 
+        }
+        
+        .card img { 
+            width: 100%; 
+            height: 140px; 
+            object-fit: cover; 
+            border-radius: 8px; 
+        }
+        
+        .card h4 { 
+            margin: 10px 0 5px; 
+            font-size: 16px; 
+            color: var(--green); 
+        }
+        
+        .price { 
+            color: #d32f2f; 
+            font-weight: bold; 
+            font-size: 18px; 
+            margin-bottom: 10px; 
+        }
+        
+        .btn { 
+            background: var(--green); 
+            color: white; 
+            border: none; 
+            padding: 12px 15px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            width: 100%; 
+            font-weight: bold; 
+            font-size: 15px; 
+        }
+        
+        .btn:hover { background: #144d18; }
+
+        /* Auth Boxes (Login / Register / Forgot Password) */
+        .auth-box { 
+            background: white; 
+            padding: 25px; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+            max-width: 450px; 
+            margin: auto; 
+        }
+        
+        .auth-box h3 { 
+            text-align: center; 
+            color: var(--green); 
+            margin-top: 0; 
+        }
+        
+        .form-group { margin-bottom: 15px; }
+        
+        .form-group label { 
+            display: block; 
+            margin-bottom: 5px; 
+            font-weight: bold; 
+            color: #333; 
+        }
+        
+        .form-group input, .form-group textarea, .form-group select { 
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid #ccc; 
+            border-radius: 6px; 
+            box-sizing: border-box; 
+            font-size: 15px; 
+        }
+        
+        .toggle-link { 
+            text-align: center; 
+            display: inline-block; 
+            color: #1565c0; 
+            cursor: pointer; 
+            font-weight: bold; 
+            text-decoration: underline; 
+        }
+
+        /* Cart & Order Status Items */
+        .cart-item { 
+            background: white; 
+            padding: 15px; 
+            border-radius: 8px; 
+            margin-bottom: 12px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border: 1px solid #ddd; 
+        }
+        
+        .qty-btn { 
+            background: #e0e0e0; 
+            border: none; 
+            padding: 5px 12px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            border-radius: 4px; 
+            font-size: 16px; 
+        }
+        
+        .order-card { 
+            background: white; 
+            padding: 15px; 
+            border-radius: 8px; 
+            margin-bottom: 15px; 
+            border-left: 5px solid var(--orange); 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+        }
+        
+        .status-badge { 
+            padding: 5px 10px; 
+            border-radius: 5px; 
+            font-weight: bold; 
+            font-size: 13px; 
+            float: right; 
+        }
+        
+        .st-Pending { background: #fff3e0; color: #e65100; }
+        .st-Confirmed { background: #e3f2fd; color: #1565c0; }
+        .st-Shipped { background: #f3e5f5; color: #7b1fa2; }
+        .st-Delivered { background: #e8f5e9; color: #2e7d32; }
+
+        /* Dynamic QR Code Box */
+        .qr-box { 
+            text-align: center; 
+            background: #fff; 
+            padding: 15px; 
+            border: 2px dashed var(--green); 
+            border-radius: 8px; 
+            margin: 15px 0; 
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>🌱 अनन्या कृषि सेवा 🌾</h1>
+    <p>किसान की जरूरत, अब आपके द्वार</p>
+    
+    <div class="top-bar-controls">
+        <!-- Social Share Bar -->
+        <div class="share-bar">
+            <button type="button" class="btn-share btn-wa" onclick="shareStore('wa')">📲 WhatsApp</button>
+            <button type="button" class="btn-share btn-fb" onclick="shareStore('fb')">Facebook</button>
+            <button type="button" class="btn-share btn-insta" onclick="shareStore('insta')">📷 Share</button>
+        </div>
+        <!-- Admin Panel Login Button -->
+        <button type="button" class="btn-admin" onclick="openAdminPanel()">🔑 एडमिन लॉगिन</button>
+    </div>
+</div>
+
+<!-- Main Navigation Bar -->
+<div class="nav-bar">
+    <button id="nav-home" class="active" onclick="showView('home')">🏠 होम</button>
+    <button id="nav-beej" onclick="showView('beej')">🌱 बीज</button>
+    <button id="nav-khaad" onclick="showView('khaad')">🧪 खाद</button>
+    <button id="nav-dawai" onclick="showView('dawai')">💊 दवाइयां</button>
+    <button id="nav-cart" onclick="showView('cart')">🛒 कार्ट (<span id="cartCount">0</span>)</button>
+    <button id="nav-profile" onclick="showView('profile')">👤 प्रोफाइल</button>
+</div>
+
+<div class="container">
+    
+    <!-- 1. HOME VIEW -->
+    <div id="view-home" class="view active">
+        <h2 style="color:var(--green); text-align:center;">हमारे प्रमुख उत्पाद</h2>
+        <div class="grid" id="homeProducts"></div>
+    </div>
+
+    <!-- 2. BEEJ STORE VIEW -->
+    <div id="view-beej" class="view">
+        <h2 style="color:var(--green);">🌱 उन्नत बीज स्टोर</h2>
+        <div class="grid" id="beejProducts"></div>
+    </div>
+
+    <!-- 3. KHAAD STORE VIEW -->
+    <div id="view-khaad" class="view">
+        <h2 style="color:var(--green);">🧪 उर्वरक एवं खाद स्टोर</h2>
+        <div class="grid" id="khaadProducts"></div>
+    </div>
+
+    <!-- 4. DAWAI STORE VIEW -->
+    <div id="view-dawai" class="view">
+        <h2 style="color:var(--green);">💊 कीटनाशक एवं फसल सुरक्षा</h2>
+        <div class="grid" id="dawaiProducts"></div>
+    </div>
+
+    <!-- 5. CART VIEW -->
+    <div id="view-cart" class="view">
+        <h2 style="color:var(--green);">🛒 आपकी शॉपिंग कार्ट</h2>
+        <div id="cartItems"></div>
+        <div id="cartSummary" style="display:none; background:white; padding:20px; border-radius:10px; margin-top:20px; text-align:center; box-shadow:0 2px 5px rgba(0,0,0,0.1);">
+            <h3 style="color:#d32f2f; font-size:22px; margin-top:0;">कुल राशि: ₹<span id="totalAmount">0</span></h3>
+            <button type="button" class="btn" style="padding: 15px; font-size: 18px;" onclick="goToCheckout()">आगे बढ़ें (Order Now) ➔</button>
+        </div>
+    </div>
+
+    <!-- 6. CHECKOUT VIEW (Address & Payment) -->
+    <div id="view-checkout" class="view">
+        <div class="auth-box" style="max-width:600px;">
+            <h3>📍 डिलीवरी का पता और पेमेंट</h3>
+            <div class="form-group">
+                <label>किसान का पूरा नाम:</label>
+                <input type="text" id="chkName" placeholder="अपना नाम लिखें">
+            </div>
+            <div class="form-group">
+                <label>मोबाइल नंबर:</label>
+                <input type="tel" id="chkPhone" placeholder="10 अंकों का नंबर">
+            </div>
+            <div class="form-group">
+                <label>डिलीवरी का पूरा पता (गाँव, तहसील, जिला):</label>
+                <textarea id="chkAddress" rows="3" placeholder="यहाँ पूरा पता लिखें..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>भुगतान का तरीका (Payment Mode):</label>
+                <select id="chkPayMethod" onchange="toggleUPIBox()">
+                    <option value="Cash on Delivery">💵 Cash on Delivery (सामान मिलने पर नकद)</option>
+                    <option value="Online UPI">📱 Online UPI / QR Code</option>
+                </select>
+            </div>
+
+            <!-- Dynamic UPI QR Code Container -->
+            <div id="upiQrBox" class="qr-box" style="display:none;">
+                <h4 style="margin:0 0 10px; color:var(--green);">📱 PhonePe / GPay / Paytm से स्कैन करें</h4>
+                <p style="margin:0 0 10px; color:#d32f2f; font-weight:bold;">कुल राशि: ₹<span id="qrTotal">0</span></p>
+                <img id="qrCodeImg" src="" alt="UPI QR Code" style="width:180px; height:180px; border:1px solid #ccc; border-radius:8px;">
+                <p style="font-size:12px; color:gray; margin-top:8px;">पेमेंट करने के बाद नीचे 'आर्डर बुक करें' दबाएं</p>
+            </div>
+
+            <button type="button" class="btn" style="padding: 15px; font-size: 18px;" onclick="placeOrder()">✅ आर्डर बुक करें</button>
+        </div>
+    </div>
+
+    <!-- 7. PROFILE & AUTHENTICATION VIEW -->
+    <div id="view-profile" class="view">
+        
+        <!-- LOGIN FORM -->
+        <div id="loginForm" class="auth-box">
+            <h3>👤 किसान लॉगिन</h3>
+            <div class="form-group">
+                <label>मोबाइल नंबर</label>
+                <input type="tel" id="logPhone" placeholder="अपना नंबर डालें">
+            </div>
+            <div class="form-group">
+                <label>पासवर्ड</label>
+                <input type="password" id="logPass" placeholder="अपना पासवर्ड डालें">
+            </div>
+            <button type="button" class="btn" onclick="loginUser()">लॉगिन करें</button>
+            
+            <div style="display:flex; justify-content:space-between; margin-top:15px; font-size:14px;">
+                <span class="toggle-link" onclick="toggleAuth('forgot')">🔑 पासवर्ड भूल गए?</span>
+                <span class="toggle-link" onclick="toggleAuth('register')">📝 नया खाता बनाएं</span>
+            </div>
+        </div>
+
+        <!-- REGISTER FORM -->
+        <div id="registerForm" class="auth-box" style="display:none;">
+            <h3>📝 नया खाता बनाएं</h3>
+            <div class="form-group">
+                <label>पूरा नाम</label>
+                <input type="text" id="regName" placeholder="अपना नाम लिखें">
+            </div>
+            <div class="form-group">
+                <label>मोबाइल नंबर</label>
+                <input type="tel" id="regPhone" placeholder="10 अंकों का नंबर">
+            </div>
+            <div class="form-group">
+                <label>गाँव / पूरा पता</label>
+                <input type="text" id="regAddress" placeholder="अपने गाँव का नाम लिखें">
+            </div>
+            <div class="form-group">
+                <label>नया पासवर्ड बनाएं</label>
+                <input type="password" id="regPass" placeholder="कम से कम 6 अंकों का पासवर्ड">
+            </div>
+            <button type="button" class="btn" onclick="registerUser()">रजिस्टर करें</button>
+            <div style="text-align:center; margin-top:15px;">
+                <span class="toggle-link" onclick="toggleAuth('login')">पहले से खाता है? लॉगिन करें</span>
+            </div>
+        </div>
+
+        <!-- FORGOT PASSWORD FORM -->
+        <div id="forgotForm" class="auth-box" style="display:none;">
+            <h3>🔑 नया पासवर्ड बनाएं</h3>
+            <div class="form-group">
+                <label>रजिस्टर्ड मोबाइल नंबर</label>
+                <input type="tel" id="forgotPhone" placeholder="10 अंकों का नंबर डालें">
+            </div>
+            <div class="form-group">
+                <label>नया पासवर्ड बनाएं</label>
+                <input type="password" id="forgotNewPass" placeholder="नया पासवर्ड लिखें">
+            </div>
+            <button type="button" class="btn" onclick="resetPassword()">पासवर्ड बदलें (Reset Password)</button>
+            <div style="text-align:center; margin-top:15px;">
+                <span class="toggle-link" onclick="toggleAuth('login')">⬅️ वापस लॉगिन पर जाएं</span>
+            </div>
+        </div>
+
+        <!-- LOGGED IN USER PROFILE DASHBOARD -->
+        <div id="profileDashboard" style="display:none;">
+            <div class="auth-box" style="max-width:100%; text-align:center; background:#e8f5e9; border:1px solid #4caf50;">
+                <h2 id="displayName" style="margin-top:0; color:#1b5e20;"></h2>
+                <p id="displayDetails" style="color:#555;"></p>
+                <button type="button" class="btn" style="background:#d32f2f; width:auto; padding:8px 20px;" onclick="logoutUser()">लॉगआउट (Logout)</button>
+            </div>
+            
+            <h3 style="color:var(--green); margin-top:25px;">📦 आपके पिछले आर्डर्स (My Orders)</h3>
+            <div id="userOrdersList"></div>
+        </div>
+        
+    </div>
+
+</div>
+
+<script>
+    // ==========================================
+    // ⚙️ सेटिंग्स एवं ग्लोबल वेरिएबल्स
+    // ==========================================
+    const SHOP_UPI_ID = "tiwarirajeshwari2@ybl"; 
+    const SHOP_WHATSAPP = "917974272891";       
+    
+    let allProducts = [];
+    let cart = [];
+    let currentUser = JSON.parse(localStorage.getItem('ak_user')) || null;
+
+    // ==========================================
+    // 🔑 एडमिन लॉगिन एवं पासवर्ड सुरक्षा
+    // ==========================================
+    function openAdminPanel() {
+        const password = prompt("🔐 कृपया एडमिन पासवर्ड दर्ज करें:");
+        if (password === "Sandeep@123") {
+            sessionStorage.setItem('adminAuth', 'true');
+            alert("✅ पासवर्ड सही है! एडमिन पैनल खुल रहा है...");
+            window.location.href = "/admin.html";
+        } else if (password !== null) {
+            alert("❌ गलत पासवर्ड! केवल दुकान मालिक ही एडमिन पैनल खोल सकते हैं।");
+        }
+    }
+
+    // ==========================================
+    // 📲 सोशल शेयरिंग लॉजिक
+    // ==========================================
+    function shareStore(platform) {
+        const storeUrl = window.location.href;
+        const shareText = "🌾 *अनन्या कृषि सेवा* 🌾\nकिसान की जरूरत, अब आपके द्वार!\n\nघर बैठे शुद्ध खाद, उत्तम बीज और फसल सुरक्षा दवाइयां मंगवाएं।\n\nऑर्डर करने के लिए लिंक खोलें 👇\n" + storeUrl;
+
+        if (platform === 'wa') {
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`, '_blank');
+        } else if (platform === 'fb') {
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(storeUrl)}`, '_blank');
+        } else if (platform === 'insta') {
+            if (navigator.share) {
+                navigator.share({ 
+                    title: 'अनन्या कृषि सेवा', 
+                    text: 'घर बैठे खाद और बीज मंगवाएं!', 
+                    url: storeUrl 
+                }).catch(() => {});
+            } else {
+                navigator.clipboard.writeText(storeUrl);
+                alert("🎉 लिंक कॉपी हो गया है! अब इसे इंस्टाग्राम पर शेयर करें।");
+            }
+        }
+    }
+
+    // ==========================================
+    // 🔄 व्यू नेविगेशन (Navigation)
+    // ==========================================
+    function showView(viewName) {
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        document.querySelectorAll('.nav-bar button').forEach(b => b.classList.remove('active'));
+        
+        document.getElementById(`view-${viewName}`).classList.add('active');
+        document.getElementById(`nav-${viewName}`).classList.add('active');
+
+        if (viewName === 'cart') renderCart();
+        if (viewName === 'profile') checkSession();
+    }
+
+    // ==========================================
+    // 📦 उत्पाद लोड व ग्रिड डिस्प्ले
+    // ==========================================
+    async function loadProducts() {
+        try {
+            const res = await fetch('/api/products');
+            allProducts = await res.json();
+            
+            renderGrid('homeProducts', allProducts);
+            renderGrid('beejProducts', allProducts.filter(p => p.category === 'beej'));
+            renderGrid('khaadProducts', allProducts.filter(p => p.category === 'khaad'));
+            renderGrid('dawaiProducts', allProducts.filter(p => p.category === 'dawai'));
+        } catch (error) {
+            console.error("Products Load Error:", error);
+        }
+    }
+
+    function renderGrid(elemId, products) {
+        const div = document.getElementById(elemId);
+        div.innerHTML = '';
+        
+        if (products.length === 0) {
+            div.innerHTML = '<p style="grid-column:1/-1; text-align:center;">कोई सामान नहीं मिला।</p>';
+            return;
+        }
+        
+        products.forEach(p => {
+            div.innerHTML += `
+                <div class="card">
+                    <img src="${p.image}" alt="${p.name}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1592982537447-7440770cbfc9?w=400';">
+                    <h4>${p.name}</h4>
+                    <div class="price">₹${p.price}</div>
+                    <button type="button" class="btn" onclick="addToCart(${p.id})">🛒 कार्ट में जोड़ें</button>
+                </div>
+            `;
+        });
+    }
+
+    // ==========================================
+    // 🛒 कार्ट लॉजिक (Shopping Cart)
+    // ==========================================
+    function addToCart(pId) {
+        let prod = allProducts.find(p => p.id == pId);
+        let item = cart.find(c => c.id == pId);
+        
+        if (item) { 
+            item.quantity++; 
+        } else { 
+            cart.push({ ...prod, quantity: 1 }); 
+        }
+        
+        document.getElementById('cartCount').innerText = cart.reduce((sum, i) => sum + i.quantity, 0);
+        alert(`✅ ${prod.name} कार्ट में जुड़ गया!`);
+    }
+
+    function changeQty(pId, change) {
+        let item = cart.find(c => c.id == pId);
+        if (item) {
+            item.quantity += change;
+            if (item.quantity <= 0) {
+                cart = cart.filter(c => c.id != pId);
+            }
+        }
+        document.getElementById('cartCount').innerText = cart.reduce((sum, i) => sum + i.quantity, 0);
+        renderCart();
+    }
+
+    function renderCart() {
+        const div = document.getElementById('cartItems');
+        if (cart.length === 0) {
+            div.innerHTML = '<h4 style="text-align:center; color:gray;">आपकी कार्ट खाली है।</h4>';
+            document.getElementById('cartSummary').style.display = 'none';
+            return;
+        }
+        
+        div.innerHTML = '';
+        let total = 0;
+        
+        cart.forEach(item => {
+            total += item.price * item.quantity;
+            div.innerHTML += `
+                <div class="cart-item">
+                    <div style="flex:1;">
+                        <b>${item.name}</b><br>
+                        <span style="color:#d32f2f; font-weight:bold;">₹${item.price}</span>
+                    </div>
+                    <div>
+                        <button type="button" class="qty-btn" onclick="changeQty(${item.id}, -1)">-</button>
+                        <span style="margin: 0 10px; font-size:18px;"><b>${item.quantity}</b></span>
+                        <button type="button" class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+                    </div>
+                </div>
+            `;
+        });
+        
+        document.getElementById('totalAmount').innerText = total;
+        document.getElementById('cartSummary').style.display = 'block';
+    }
+
+    // ==========================================
+    // 💳 चेकआउट व पेमेंट लॉजिक
+    // ==========================================
+    function goToCheckout() {
+        if (currentUser) {
+            document.getElementById('chkName').value = currentUser.name || '';
+            document.getElementById('chkPhone').value = currentUser.phone || '';
+            document.getElementById('chkAddress').value = currentUser.address || '';
+        }
+        toggleUPIBox();
+        showView('checkout');
+    }
+
+    function toggleUPIBox() {
+        const method = document.getElementById('chkPayMethod').value;
+        const qrBox = document.getElementById('upiQrBox');
+        
+        if (method === 'Online UPI') {
+            const total = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+            document.getElementById('qrTotal').innerText = total;
+            const upiUrl = `upi://pay?pa=${SHOP_UPI_ID}&pn=AnanyaKrishiSeva&am=${total}&cu=INR`;
+            document.getElementById('qrCodeImg').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl)}`;
+            qrBox.style.display = 'block';
+        } else {
+            qrBox.style.display = 'none';
+        }
+    }
+
+    async function placeOrder() {
+        try {
+            const name = document.getElementById('chkName').value.trim();
+            const phone = document.getElementById('chkPhone').value.trim();
+            const address = document.getElementById('chkAddress').value.trim();
+            const payMethod = document.getElementById('chkPayMethod').value;
+
+            if (!name || !phone || !address) {
+                return alert("⚠️ कृपया नाम, मोबाइल नंबर और पता भरें!");
+            }
+
+            if (cart.length === 0) {
+                return alert("⚠️ आपकी कार्ट खाली है!");
+            }
+
+            let totalAmount = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+            const orderData = { userPhone: phone, userName: name, address, items: cart, totalAmount, paymentMethod: payMethod };
+
+            const res = await fetch('/api/orders', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(orderData)
+            });
+
+            const result = await res.json();
+            if (result.success) {
+                let itemListText = cart.map(i => `- ${i.name} (${i.quantity})`).join('%0A');
+                let waMsg = `🌾 *नया आर्डर - अनन्या कृषि सेवा* 🌾%0A%0A🆔 *Order ID:* ${result.order.orderId}%0A👤 *नाम:* ${name}%0A📞 *फोन:* ${phone}%0A📍 *पता:* ${address}%0A%0A📦 *सामान:*%0A${itemListText}%0A%0A💰 *बिल:* ₹${totalAmount}%0A💳 *भुगतान:* ${payMethod}`;
+                
+                cart = []; 
+                document.getElementById('cartCount').innerText = 0;
+                alert("🎉 आर्डर सफलतापूर्वक बुक हो गया है!");
+                window.open(`https://wa.me/${SHOP_WHATSAPP}?text=${waMsg}`, '_blank');
+                showView('profile');
+            } else {
+                alert("❌ " + (result.message || "आर्डर बुक नहीं हो सका!"));
+            }
+        } catch (err) { 
+            console.error("placeOrder Error:", err);
+            alert("❌ आर्डर बुक करने में समस्या आई!"); 
+        }
+    }
+
+    // ==========================================
+    // 👤 रजिस्ट्रेशन, लॉगिन व पासवर्ड रीसेट
+    // ==========================================
+    function toggleAuth(type) {
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('registerForm').style.display = 'none';
+        document.getElementById('forgotForm').style.display = 'none';
+
+        if (type === 'register') {
+            document.getElementById('registerForm').style.display = 'block';
+        } else if (type === 'forgot') {
+            document.getElementById('forgotForm').style.display = 'block';
+        } else {
+            document.getElementById('loginForm').style.display = 'block';
+        }
+    }
+
+    async function registerUser() {
+        try {
+            const name = document.getElementById('regName').value.trim();
+            const phone = document.getElementById('regPhone').value.trim();
+            const address = document.getElementById('regAddress').value.trim();
+            const password = document.getElementById('regPass').value.trim();
+
+            if (!name || !phone || !address || !password) {
+                return alert("⚠️ कृपया सभी जानकारी (नाम, मोबाइल, पता, पासवर्ड) भरें!");
+            }
+
+            const res = await fetch('/api/user/register', {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({ name, phone, address, password })
+            });
+            const data = await res.json();
+            
+            if (res.ok && data.success) {
+                alert("🎉 " + data.message);
+                currentUser = data.user;
+                localStorage.setItem('ak_user', JSON.stringify(currentUser));
+                checkSession();
+            } else { 
+                alert("❌ " + (data.message || "रजिस्ट्रेशन विफल!")); 
+            }
+        } catch (error) { 
+            console.error("Register Error:", error);
+            alert("❌ सर्वर त्रुटि!"); 
+        }
+    }
+
+    async function loginUser() {
+        try {
+            const phone = document.getElementById('logPhone').value.trim();
+            const password = document.getElementById('logPass').value.trim();
+
+            if (!phone || !password) {
+                return alert("⚠️ मोबाइल और पासवर्ड भरें!");
+            }
+
+            const res = await fetch('/api/user/login', {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({ phone, password })
+            });
+            const data = await res.json();
+            
+            if (res.ok && data.success) {
+                alert("🎉 " + data.message);
+                currentUser = data.user;
+                localStorage.setItem('ak_user', JSON.stringify(currentUser));
+                checkSession();
+            } else { 
+                alert("❌ " + (data.message || "लॉगिन विफल!")); 
+            }
+        } catch (error) { 
+            console.error("Login Error:", error);
+            alert("❌ सर्वर त्रुटि!"); 
+        }
+    }
+
+    async function resetPassword() {
+        try {
+            const phone = document.getElementById('forgotPhone').value.trim();
+            const newPassword = document.getElementById('forgotNewPass').value.trim();
+
+            if (!phone || !newPassword) {
+                return alert("⚠️ कृपया रजिस्टर्ड मोबाइल नंबर और नया पासवर्ड दोनों भरें!");
+            }
+
+            const res = await fetch('/api/user/reset-password', {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({ phone, newPassword })
+            });
+
+            const data = await res.json();
+
+            if (res.ok && data.success) {
+                alert("🎉 " + data.message);
+                document.getElementById('logPhone').value = phone;
+                toggleAuth('login');
+            } else {
+                alert("❌ " + (data.message || "पासवर्ड नहीं बदला जा सका!"));
+            }
+        } catch (error) {
+            console.error("Reset Password Error:", error);
+            alert("❌ सर्वर त्रुटि!");
+        }
+    }
+
+    function logoutUser() {
+        localStorage.removeItem('ak_user');
+        currentUser = null;
+        alert("👋 लॉगआउट सफल!");
+        checkSession();
+    }
+
+    async function checkSession() {
+        if (currentUser) {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('forgotForm').style.display = 'none';
+            document.getElementById('profileDashboard').style.display = 'block';
+            
+            document.getElementById('displayName').innerText = `👤 ${currentUser.name || 'किसान भाई'}`;
+            document.getElementById('displayDetails').innerText = `📞 ${currentUser.phone} | 📍 ${currentUser.address || ''}`;
+
+            try {
+                const res = await fetch(`/api/orders/user/${currentUser.phone}`);
+                const orders = await res.json();
+                const div = document.getElementById('userOrdersList');
+                div.innerHTML = '';
+                
+                if (orders.length === 0) {
+                    div.innerHTML = '<p style="text-align:center; color:gray;">कोई पुराना आर्डर नहीं है।</p>';
+                    return;
+                }
+
+                orders.forEach(o => {
+                    div.innerHTML += `
+                        <div class="order-card">
+                            <span class="status-badge st-${o.status}">${o.status}</span>
+                            <b>आर्डर ID: ${o.orderId}</b><br><small style="color:gray;">${o.date}</small>
+                            <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
+                            <p style="margin:0 0 10px;">${o.items.map(i => `• ${i.name} (x${i.quantity})`).join('<br>')}</p>
+                            <b>कुल बिल: ₹${o.totalAmount}</b> (${o.paymentMethod})
+                        </div>
+                    `;
+                });
+            } catch (e) {
+                console.error("Session Check Error:", e);
+            }
+        } else {
+            document.getElementById('profileDashboard').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+        }
+    }
+
+    // ऐप लोड होना
+    loadProducts();
+</script>
+
+</body>
+</html>

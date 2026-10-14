@@ -1,0 +1,17 @@
+{
+  "name": "किसान सेवा केंद्र",
+  "short_name": "किसान केंद्र",
+  "description": "खाद और बीज खरीदने के लिए किसान ऐप",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#2e7d32",
+  "theme_color": "#2e7d32",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

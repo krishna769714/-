@@ -1,0 +1,202 @@
+[
+  {
+    "id": 101,
+    "name": "उत्तम रिचार्ज NPK 0:52:34 (1kg)",
+    "price": 240,
+    "stock": 50,
+    "category": "khaad",
+    "image": "https://images.unsplash.com/photo-1592982537447-7440770cbfc9?w=400"
+  },
+  {
+    "id": 102,
+    "name": "सेमिनिस अभिलाष हाइब्रिड टमाटर बीज",
+    "price": 450,
+    "stock": 29,
+    "category": "beej",
+    "image": "https://images.unsplash.com/photo-1592841200221-a6898f307baa?w=400"
+  },
+  {
+    "id": 103,
+    "name": "क्रॉस-एक्स कीटनाशक दवा (150ml)",
+    "price": 380,
+    "stock": 40,
+    "category": "dawai",
+    "image": "https://images.pexels.com/photos/2581077/pexels-photo-2581077.jpeg?w=400"
+  },
+  {
+    "id": 104,
+    "name": "आनंददाता मैग्नीशियम सल्फेट (25kg)",
+    "price": 420,
+    "stock": 25,
+    "category": "khaad",
+    "image": "https://images.unsplash.com/photo-1586771107445-d3ca888129ff?w=400"
+  },
+  {
+    "id": 105,
+    "name": "सेमिनिस शारदा हाइब्रिड लौकी बीज",
+    "price": 220,
+    "stock": 35,
+    "category": "beej",
+    "image": "https://images.unsplash.com/photo-1590868309235-ea34bed7bd7f?w=400"
+  },
+  {
+    "id": 106,
+    "name": "सेमिनिस जामिनी हाइब्रिड खीरा बीज",
+    "price": 250,
+    "stock": 40,
+    "category": "beej",
+    "image": "https://images.unsplash.com/photo-1604977042946-1eecc30f269e?w=400"
+  },
+  {
+    "id": 107,
+    "name": "उत्तम सल्फीनो गोल्ड सल्फर 90% (3kg)",
+    "price": 290,
+    "stock": 45,
+    "category": "khaad",
+    "image": "https://images.unsplash.com/photo-1628102491629-778571d893a3?w=400"
+  },
+  {
+    "id": 108,
+    "name": "ऑर्गेनिक कार्बन जैव उर्वरक (1kg)",
+    "price": 320,
+    "stock": 20,
+    "category": "khaad",
+    "image": "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400"
+  },
+  {
+    "id": 109,
+    "name": "श्रीराम वरदान मोनो जिंक 33% (5kg)",
+    "price": 480,
+    "stock": 30,
+    "category": "khaad",
+    "image": "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=400"
+  },
+  {
+    "id": 110,
+    "name": "यूनिसेम USM-प्रिंस हाइब्रिड पत्तागोभी",
+    "price": 260,
+    "stock": 50,
+    "category": "beej",
+    "image": "https://images.unsplash.com/photo-1594282486552-05b4d80fbb9f?w=400"
+  },
+  {
+    "id": 111,
+    "name": "उन्नति NPK 20-20-10 (50kg)",
+    "price": 2450,
+    "stock": 60,
+    "category": "khaad",
+    "image": "https://images.unsplash.com/photo-1586771107445-d3ca888129ff?w=400"
+  },
+  {
+    "id": 112,
+    "name": "उन्नति NPK 12-32-16 (50kg)",
+    "price": 2100,
+    "stock": 55,
+    "category": "khaad",
+    "image": "https://images.unsplash.com/photo-1592982537447-7440770cbfc9?w=400"
+  },
+  {
+    "id": 113,
+    "name": "श्रीफल कैल्शियम मैग्नीशियम सल्फर",
+    "price": 250,
+    "stock": 70,
+    "category": "khaad",
+    "image": "https://images.unsplash.com/photo-1628102491629-778571d893a3?w=400"
+  },
+  {
+    "id": 114,
+    "name": "प्रगति PROM ऑर्गेनिक कार्बन (50kg)",
+    "price": 1350,
+    "stock": 40,
+    "category": "khaad",
+    "image": "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400"
+  },
+  {
+    "id": 115,
+    "name": "कृषि उन्नति पोटाश POTASH (50kg)",
+    "price": 2350,
+    "stock": 50,
+    "category": "khaad",
+    "image": "https://images.unsplash.com/photo-1592982537447-7440770cbfc9?w=400"
+  },
+  {
+    "id": 116,
+    "name": "प्रगति सुपर उर्वरक (50kg)",
+    "price": 300,
+    "stock": 65,
+    "category": "khaad",
+    "image": "https://images.unsplash.com/photo-1586771107445-d3ca888129ff?w=400"
+  },
+  {
+    "id": 117,
+    "name": "एनएफएल किसान बेंटोनाइट सल्फर 90%",
+    "price": 850,
+    "stock": 40,
+    "category": "khaad",
+    "image": "https://images.unsplash.com/photo-1628102491629-778571d893a3?w=400"
+  },
+  {
+    "id": 118,
+    "name": "ऑर्गेनिक कार्बन नेचुरल (25kg Drum)",
+    "price": 1400,
+    "stock": 20,
+    "category": "khaad",
+    "image": "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400"
+  },
+  {
+    "id": 119,
+    "name": "अमीनो एसिड 80% पाउडर (1kg)",
+    "price": 350,
+    "stock": 30,
+    "category": "dawai",
+    "image": "https://images.pexels.com/photos/1459339/pexels-photo-1459339.jpeg?w=400"
+  },
+  {
+    "id": 120,
+    "name": "फल्विक एसिड पाउडर (1kg)",
+    "price": 380,
+    "stock": 25,
+    "category": "dawai",
+    "image": "https://images.pexels.com/photos/1105019/pexels-photo-1105019.jpeg?w=400"
+  },
+  {
+    "id": 121,
+    "name": "सीवीड एक्सट्रैक्ट फ्लेक्स (1kg)",
+    "price": 400,
+    "stock": 35,
+    "category": "khaad",
+    "image": "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=400"
+  },
+  {
+    "id": 122,
+    "name": "हाइब्रिड धान बीज (Dhaan Hybrid - 3kg)",
+    "price": 1350,
+    "stock": 40,
+    "category": "beej",
+    "image": "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400"
+  },
+  {
+    "id": 123,
+    "name": "रिसर्च धान बीज (Research Dhaan - 10kg)",
+    "price": 1250,
+    "stock": 35,
+    "category": "beej",
+    "image": "https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=400"
+  },
+  {
+    "id": 124,
+    "name": "उत्तम गेहूं बीज (Gehu Seed - 40kg)",
+    "price": 1750,
+    "stock": 50,
+    "category": "beej",
+    "image": "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400"
+  },
+  {
+    "id": 125,
+    "name": "रिसर्च गेहूं बीज (Research Gehu - 20kg)",
+    "price": 1450,
+    "stock": 45,
+    "category": "beej",
+    "image": "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=400"
+  }
+]

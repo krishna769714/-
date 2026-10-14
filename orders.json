@@ -1,0 +1,24 @@
+[
+  {
+    "orderId": "AK327879",
+    "userPhone": "7697147064",
+    "userName": "Krishna",
+    "address": "kalyanpur",
+    "pincode": "",
+    "items": [
+      {
+        "id": 102,
+        "name": "सेमिनिस अभिलाष हाइब्रिड टमाटर बीज",
+        "price": 450,
+        "stock": 30,
+        "category": "beej",
+        "image": "https://images.unsplash.com/photo-1592841200221-a6898f307baa?w=400",
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 450,
+    "paymentMethod": "Online UPI",
+    "status": "Pending",
+    "date": "12/10/2026, 11:46:29 am"
+  }
+]
